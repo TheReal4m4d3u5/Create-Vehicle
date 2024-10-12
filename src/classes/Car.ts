@@ -50,7 +50,7 @@ class Car extends Vehicle {
   override printDetails(): void {
     // Call the printDetails method of the parent class, Vehicle
     super.printDetails();
-
+    
     // Print details of the Car class
     console.log(`VIN: ${this.vin}`);
     console.log(`Color: ${this.color}`);
