@@ -1,9 +1,86 @@
 // importing classes from other files
-import inquirer from "inquirer";
+import inquirer, { Answers, QuestionCollection } from "inquirer";
 import Truck from "./Truck.js";
 import Car from "./Car.js";
 import Motorbike from "./Motorbike.js";
 import Wheel from "./Wheel.js";
+
+
+
+let allQuestions  = [
+  {
+    type: 'list',
+    name: 'action',
+    message: 'Select an action',
+    choices: [''],
+  },
+]
+
+const carQuestions = [
+  {
+    type: 'list',
+    name: 'action',
+    message: 'Select an action',
+    // TODO: add options to tow and wheelie
+    choices: [ 
+      'Print details',
+      'Start vehicle',
+      'Accelerate 5 MPH',
+      'Decelerate 5 MPH',
+      'Stop vehicle',
+      'Turn right',
+      'Turn left',
+      'Reverse',
+      'Select or create another vehicle',
+      'Exit',
+    ],
+  },
+]
+
+const truckQuestions = [
+  {
+    type: 'list',
+    name: 'action',
+    message: 'Select an action',
+    // TODO: add options to tow and wheelie
+    choices: [ 
+      'Print details',
+      'Start vehicle',
+      'Accelerate 5 MPH',
+      'Decelerate 5 MPH',
+      'Stop vehicle',
+      'Turn right',
+      'Turn left',
+      'Reverse',
+      'Tow',
+      'Select or create another vehicle',
+      'Exit',
+    ],
+  },
+]
+
+const motorbikeQuestions = [
+  {
+    type: 'list',
+    name: 'action',
+    message: 'Select an action',
+    // TODO: add options to tow and wheelie
+    choices: [ 
+      'Print details',
+      'Start vehicle',
+      'Accelerate 5 MPH',
+      'Decelerate 5 MPH',
+      'Stop vehicle',
+      'Turn right',
+      'Turn left',
+      'Reverse',
+      'wheelie',
+      'Select or create another vehicle',
+      'Exit',
+    ],
+  },
+]
+
 
 // define the Cli class
 class Cli {
@@ -12,11 +89,13 @@ class Cli {
   // TODO: See the AbleToTow interface for an example of how to use the Union operator
   vehicles: (Car | Truck | Motorbike)[];
   selectedVehicleVin: string | undefined;
+  mySeleted: (Car | Truck | Motorbike)[];
   exit: boolean = false;
 
   // TODO: Update the constructor to accept Truck and Motorbike objects as well
-  constructor(vehicles: (Car | Truck | Motorbike)[]) {
+  constructor(vehicles: (Car | Truck | Motorbike)[], mySeleted: (Car | Truck | Motorbike)[]) {
     this.vehicles = vehicles;
+    this.mySeleted = mySeleted;
   }
 
   // static method to generate a vin
@@ -46,9 +125,11 @@ class Cli {
       ])
       .then((answers) => {
 
-
         // set the selectedVehicleVin to the vin of the selected vehicle
         this.selectedVehicleVin = answers.selectedVehicleVin;
+        console.log('answers ' + answers.className);
+        this.mySeleted = [];
+        this.mySeleted.push(answers);
 
         // perform actions on the selected vehicle
         this.performActions();
@@ -131,6 +212,10 @@ class Cli {
         );
         // push the car to the vehicles array
         this.vehicles.push(car);
+        console.log('car' + car);
+        this.mySeleted = [];
+        this.mySeleted.push(car);
+
         // set the selectedVehicleVin to the vin of the car
         this.selectedVehicleVin = car.vin;
         // perform actions on the car
@@ -198,6 +283,10 @@ class Cli {
         );
         // push the car to the vehicles array
         this.vehicles.push(truck);
+        console.log('truck' + truck);
+        this.mySeleted = [];
+        this.mySeleted.push(truck);
+
         // set the selectedVehicleVin to the vin of the truck
         this.selectedVehicleVin = truck.vin;
         
@@ -288,6 +377,11 @@ class Cli {
 
         // push the car to the vehicles array
         this.vehicles.push(motorbike);
+        console.log('motorbike' + motorbike);
+        this.mySeleted = [];
+        this.mySeleted.push(motorbike);
+
+
         // set the selectedVehicleVin to the vin of the truck
         this.selectedVehicleVin = motorbike.vin;
         // perform actions on the truck
@@ -345,40 +439,38 @@ class Cli {
 
   // method to perform actions on a vehicle
   performActions(): void {
+
+    let myClass: string = "";
+    let index: number = 0;
+
+    for (let i = 0; i < this.vehicles.length; i++) {
+      if (this.vehicles[i].vin === this.selectedVehicleVin) {
+        myClass = this.vehicles[i].className;
+        index = i;
+      }
+    }
+
+    switch(myClass) {
+      case 'Car':
+        allQuestions = carQuestions;
+        break;
+      case 'Truck':
+        allQuestions = truckQuestions;
+        break;
+      case 'Motorbike':
+        allQuestions = motorbikeQuestions;
+        break;
+      default:
+        
+    }
+
     inquirer
-      .prompt([
-        {
-          type: 'list',
-          name: 'action',
-          message: 'Select an action',
-          // TODO: add options to tow and wheelie
-          choices: [
-            'Print details',
-            'Start vehicle',
-            'Accelerate 5 MPH',
-            'Decelerate 5 MPH',
-            'Stop vehicle',
-            'Turn right',
-            'Turn left',
-            'Reverse',
-            'Tow',
-            'wheelie',
-            'Select or create another vehicle',
-            'Exit',
-          ],
-        },
-      ])
+      .prompt(allQuestions)
       .then((answers) => {
         
-        let myClass: string = "";
-        let index: number = 0;
 
-        for (let i = 0; i < this.vehicles.length; i++) {
-          if (this.vehicles[i].vin === this.selectedVehicleVin) {
-            myClass = this.vehicles[i].className;
-            index = i;
-          }
-        }
+
+        console.log("this.selectedVehicleVin: " + this.mySeleted[0].className);
        
         // perform the selected action
         if (answers.action === 'Print details') {
