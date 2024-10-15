@@ -14,7 +14,6 @@ class Car extends Vehicle {
   topSpeed: number;
   wheels: Wheel[];
   towingCapacity: number;
-  className = "Car";
   
 
   // Constructor for the Car class
@@ -52,9 +51,7 @@ class Car extends Vehicle {
   }
 
   wheelie(make: string, model: string): void {
-    console.log(
-      `Motorbike ${make} ${model} is doing a wheelie!`
-    );
+
   }
 
   tow(): void {

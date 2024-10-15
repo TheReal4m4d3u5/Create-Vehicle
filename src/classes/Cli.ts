@@ -37,7 +37,7 @@ const carQuestions = [
   },
 ]
 
-const truckQuestions = [
+const truckMotorBikeQuestions = [
   {
     type: 'list',
     name: 'action',
@@ -53,33 +53,14 @@ const truckQuestions = [
       'Turn left',
       'Reverse',
       'Tow',
-      'Select or create another vehicle',
-      'Exit',
-    ],
-  },
-]
-
-const motorbikeQuestions = [
-  {
-    type: 'list',
-    name: 'action',
-    message: 'Select an action',
-    // TODO: add options to tow and wheelie
-    choices: [ 
-      'Print details',
-      'Start vehicle',
-      'Accelerate 5 MPH',
-      'Decelerate 5 MPH',
-      'Stop vehicle',
-      'Turn right',
-      'Turn left',
-      'Reverse',
       'wheelie',
       'Select or create another vehicle',
       'Exit',
     ],
   },
 ]
+
+
 
 
 // define the Cli class
@@ -127,9 +108,8 @@ class Cli {
 
         // set the selectedVehicleVin to the vin of the selected vehicle
         this.selectedVehicleVin = answers.selectedVehicleVin;
-        console.log('answers ' + answers.className);
         this.mySeleted = [];
-        this.mySeleted.push(answers);
+   
 
         // perform actions on the selected vehicle
         this.performActions();
@@ -212,7 +192,6 @@ class Cli {
         );
         // push the car to the vehicles array
         this.vehicles.push(car);
-        console.log('car' + car);
         this.mySeleted = [];
         this.mySeleted.push(car);
 
@@ -283,7 +262,6 @@ class Cli {
         );
         // push the car to the vehicles array
         this.vehicles.push(truck);
-        console.log('truck' + truck);
         this.mySeleted = [];
         this.mySeleted.push(truck);
 
@@ -366,18 +344,14 @@ class Cli {
           parseInt(answers.year),
           parseInt(answers.weight),
           parseInt(answers.topSpeed),
-          [],
+          [new Wheel(answers.frontWheelDiameter, answers.frontWheelBrand), new Wheel(answers.rearWheelDiameter, answers.rearWheelBrand)],
+        
           answers.towingCapacity
          );
 
 
-        // const motorbike1Wheels = [new Wheel(answers.frontWheelDiameter, answers.frontWheelBrand), new Wheel(answers.rearWheelDiameter, answers.rearWheelBrand)];
-        
-        // motorbike.wheels.push(motorbike1Wheels);
-
         // push the car to the vehicles array
         this.vehicles.push(motorbike);
-        console.log('motorbike' + motorbike);
         this.mySeleted = [];
         this.mySeleted.push(motorbike);
 
@@ -392,7 +366,7 @@ class Cli {
 
   // method to find a vehicle to tow
   // TODO: add a parameter to accept a truck object
-  findVehicleToTow(truck: Truck, index: number): void {
+  findVehicleToTow(truck: Truck): void {
     inquirer
       .prompt([
         {
@@ -439,26 +413,26 @@ class Cli {
 
   // method to perform actions on a vehicle
   performActions(): void {
-
-    let myClass: string = "";
+    
     let index: number = 0;
 
     for (let i = 0; i < this.vehicles.length; i++) {
       if (this.vehicles[i].vin === this.selectedVehicleVin) {
-        myClass = this.vehicles[i].className;
         index = i;
       }
     }
+
+    let myClass = this.vehicles[index].constructor.name
 
     switch(myClass) {
       case 'Car':
         allQuestions = carQuestions;
         break;
       case 'Truck':
-        allQuestions = truckQuestions;
+        allQuestions = truckMotorBikeQuestions;
         break;
       case 'Motorbike':
-        allQuestions = motorbikeQuestions;
+        allQuestions = truckMotorBikeQuestions;
         break;
       default:
         
@@ -467,10 +441,6 @@ class Cli {
     inquirer
       .prompt(allQuestions)
       .then((answers) => {
-        
-
-
-        console.log("this.selectedVehicleVin: " + this.mySeleted[0].className);
        
         // perform the selected action
         if (answers.action === 'Print details') {
@@ -536,13 +506,11 @@ class Cli {
           // Call the findVehicleToTow method to find a vehicle to tow and pass the selected truck as an argument.
           // After calling the findVehicleToTow method, you will need to return to avoid instantly calling the performActions
           // method again since findVehicleToTow is asynchronous.
-
   
           if(myClass == "Truck"){
-            this.findVehicleToTow(this.vehicles[index], index);
+            this.findVehicleToTow(this.vehicles[index]);
             return;
           }       
-
 
         }else if (answers.action === 'wheelie') {     
           // TODO: add statements to perform the wheelie action only if the selected vehicle is a motorbike

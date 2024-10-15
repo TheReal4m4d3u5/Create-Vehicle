@@ -16,7 +16,6 @@ class Motorbike extends Vehicle{
   weight: number;
   topSpeed: number;
   wheels: Wheel[];
-  className = "Motorbike";
   towingCapacity: number;
 
   // TODO: Create a constructor that accepts the properties of the Motorbike class
@@ -51,11 +50,16 @@ class Motorbike extends Vehicle{
       // Check if the wheels array has 4 elements
       // If not, create 4 new Wheel objects
       // Otherwise, use the provided wheels array
-      if (wheels.length !== 4) {
+
+
+      if (wheels.length !== 2) {
         this.wheels = [new Wheel(), new Wheel(), new Wheel(), new Wheel()];
       } else {
+      
         this.wheels = wheels;
       }
+
+      
     }
 
 
@@ -72,8 +76,6 @@ class Motorbike extends Vehicle{
     tow(): void {
     }
 
-
-
   // TODO: Override the printDetails method from the Vehicle class
   // TODO: The method should call the printDetails method of the parent class
   // TODO: The method should log the details of the Motorbike
@@ -82,28 +84,22 @@ class Motorbike extends Vehicle{
   override printDetails(): void {
     // Call the printDetails method of the parent class, Vehicle
     super.printDetails();
-    
   
     console.log(`VIN: ${this.vin}`);
-    console.log(`Color: ${this.color}`);
     console.log(`Make: ${this.make}`);
     console.log(`Model: ${this.model}`);
     console.log(`Year: ${this.year}`);
     console.log(`Weight: ${this.weight} lbs`);
     console.log(`Top Speed: ${this.topSpeed} mph`);
+    console.log(`Color: ${this.color}`);
 
+    
     // Print details of the wheels
     console.log(
       `Wheel 1: ${this.wheels[0].getDiameter} inch with a ${this.wheels[0].getTireBrand} tire`
     );
     console.log(
       `Wheel 2: ${this.wheels[1].getDiameter} inch with a ${this.wheels[1].getTireBrand} tire`
-    );
-    console.log(
-      `Wheel 3: ${this.wheels[2].getDiameter} inch with a ${this.wheels[2].getTireBrand} tire`
-    );
-    console.log(
-      `Wheel 4: ${this.wheels[3].getDiameter} inch with a ${this.wheels[3].getTireBrand} tire`
     );
   }
 
