@@ -75,9 +75,27 @@ https://drive.google.com/file/d/10LVdHntVz4AayweHaHCTJ5hZLOjpG4YP/view?usp=drive
 
   ## Tests  
 
-  A car, truck or motorbike can be created. The truck will not be able to tow it's self or vehicles too heavy. Motorbike cannot tow but can do wheelies. Cars do not have any of these prompts.   
+  Make myCar
+  weight 50,000
+  
+  Make myTruck
 
+  Make myBike
 
+  print myBike
+  make myBike do something
+  make bike tow
+  make bike wheelie
+
+  select Truck 
+  make Truck do something 
+  make Truck tow it's self
+  make Truck tow too heavy
+  make tuck tow vehicle
+
+  cycle through car actions
+
+  exit
    
 
   ## Questions 
