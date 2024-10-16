@@ -83,16 +83,26 @@ https://drive.google.com/file/d/10LVdHntVz4AayweHaHCTJ5hZLOjpG4YP/view?usp=drive
   Make myBike
 
   print myBike
+
   make myBike do something
+  
   make bike tow
+  
   make bike wheelie
 
   select Truck 
+  
   make Truck do something 
+  
   make Truck tow it's self
+  
   make Truck tow too heavy
-  make tuck tow vehicle
+  
+  make Tuck tow vehicle
+  
+  make Truck wheelie
 
+  select car 
   cycle through car actions
 
   exit
