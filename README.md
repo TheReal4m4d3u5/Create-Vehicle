@@ -47,7 +47,7 @@ https://drive.google.com/file/d/10LVdHntVz4AayweHaHCTJ5hZLOjpG4YP/view?usp=drive
 
   ## Installation  
 
-  Open this project in your visual studio code editor. Right click the index.js file and open in terminal. Type npm init -y and npm i to install the the dependencies.   
+  Open this project in your visual studio code editor. Right click the index.js file and open in terminal. Type npm init -y and npm i to install the the dependencies. To run type npm run start. 
 
    
 
